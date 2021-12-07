@@ -1,5 +1,6 @@
 const db = require("../db")
-
+const NoPermissionError = require("../errors/noPermissionError")
+const TaskNotFoundError = require("../errors/taskNotFoundError")
 class TasksRegisterService{
   async getTasks(user_id){
     return await db("tasks").where({user_id: user_id});
@@ -8,8 +9,8 @@ class TasksRegisterService{
   async getTaskById(user_id, id){
     const task = await db("tasks").where({id}).first();
 
-    if(!task) throw new Error("Tarefa não encontrada");
-    if(task.user_id != user_id) throw new Error("Usuario não autorizado");
+    if(!task) throw new TaskNotFoundError("Tarefa não encontrada");
+    if(task.user_id != user_id) throw new NoPermissionError("Usuario não autorizado");
 
     return task;
   }
