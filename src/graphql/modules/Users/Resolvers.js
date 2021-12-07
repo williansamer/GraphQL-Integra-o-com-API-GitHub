@@ -19,3 +19,10 @@ module.exports = {
     }
   }
 }
+
+// RESUMINDO O QUE O RESOLVERS FAZ:
+/* 
+  O resolver irá receber obj, args, context e info. E pode resolver todas questão do CRUD por aqui..
+  ..mas quando se usa o dataSource para acessar algum DB ou API, o resolver passa informações do FRONT para o BACK para ser resolvido pelo dataSource..
+  ..No dataSource, irá de fato manusear as informações, DB e/ou API e retornar o resultado para o FRONT.
+*/

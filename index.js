@@ -12,6 +12,11 @@ const server = new ApolloServer({
       userRegister: UserRegisterService,
       tasksService: TasksRegisterService
     }
+  },
+  context: async ({req})=>{
+    const user_id = await req.headers.authorization;
+
+    return {user_id}
   }
 });
 
