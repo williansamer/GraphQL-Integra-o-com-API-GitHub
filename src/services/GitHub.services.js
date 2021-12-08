@@ -1,13 +1,12 @@
-const {RESTDataSource} = require('apollo-datasource-rest');
-
-class GitHubAPI extends RESTDataSource {
+const { RESTDataSource } = require('apollo-datasource-rest');
+class GitHubAPI extends RESTDataSource{
   constructor(){
     super();
-    this.baseURL = "https://api.github.com/";
+    this.baseURL = 'https://api.github.com'; // this.baseURL is the baseURL for the REST API
   }
 
   async getUser(login){
-    return await this.get(`users/${login}`); //o 'get' é um método do RESTDataSource
+    return await this.get(`/users/${login}`); // this.get is a method from RESTDataSource
   }
 }
 

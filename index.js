@@ -4,11 +4,9 @@ const GitHubAPI = require('./src/services/GitHub.services');
 
 const server = new ApolloServer({
   ...graphql,
-  dataSources: ()=>{
-    return {
-      GitHubAPI: GitHubAPI
-    }
-  }
+  dataSources: () => ({
+    gitHubAPI: GitHubAPI
+  }),
 });
 
 server.listen().then(({ url }) => {
