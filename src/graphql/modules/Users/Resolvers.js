@@ -1,3 +1,5 @@
+const generator = require("../../../helpers/generator")
+
 module.exports = {
 
   User: {
@@ -8,14 +10,19 @@ module.exports = {
 
   Query: {
     users: async (_, {login}, {dataSources})=>{
-      const foundUser = await dataSources.userRegister.getUserByLogin(login);
+      const foundUser = await dataSources.userRegister.getUserByLogin(login); //Verificar se acha o login no DB
 
-      if(foundUser) return foundUser;
-
-      const {login: loginGit, avatar_url} = await dataSources.GitHubAPI.getUser(login);
-
-      return await dataSources.userRegister.addUser({login: loginGit, avatar_url});
-    }
+      if(foundUser){ //Se achar algo no DB
+        foundUser.token = generator.createToken(foundUser.id) //Criando Token
+        return foundUser //Retornando para o FRONT
+      }
+      //..senão..
+      const {login: loginGit, avatar_url} = await dataSources.GitHubAPI.getUser(login); //Desestruturar os dados do usuário(login) encontrado
+      const newUser = await dataSources.userRegister.addUser({login: loginGit, avatar_url});  //Criando novo usuário no DB   
+    
+      newUser.token = generator.createToken(newUser.id); //Criando Token para este novo usuário
+      return newUser //Retornando para o FRONT
+    }  
   }
 }
 
